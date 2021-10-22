@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>ReactJS</title>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+
+    <style>
+        div.form {
+            display: block;
+            text-align: center;
+        }
+        form {
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        h1, h2, .centered {
+            text-align: center;
+        }
+    </style>
+
+    <body>
+        <h1>Hello, world!</h1>
+
+        <button id="button1" onclick="activeButton(this)">Button 1</button>
+
+        <input type="file" id="input" multiple/>
+
+        <div id="users"></div>
+
+        <ul id="reconciliation"></ul>
+        
+        <div id="root"></div>
+
+        <hr />
+
+        <div class="form" id="uncontrolled"></div>
+
+        <hr />
+
+        <div id="loginForm" class="form"></div>
+
+        <div class="centered">
+            <img src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_1382,h_600/https://assets.ubuntu.com/v1/817b07bd-GG-FF-download-mascots.svg"
+                srcset="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_2764,h_1200/https://assets.ubuntu.com/v1/817b07bd-GG-FF-download-mascots.svg 2x"
+                alt="" width="800" height="348" loading="auto" />
+        </div>
+
+        <div id="jensen"></div>
+
+        <div id="optimizing_performance"></div>
+
+        <div id="marklar"></div>
+        
+        <script type="text/babel">
+            var x = 7;
+            console.log(x);
+            console.log(3 + 4);
+            console.log("Fred" + 234);
+
+            const b1 = document.getElementById('button1');
+            b1.tabIndex = 1;
+            
+            function activeButton(elem) {
+                elem.className = elem.className === 'active' ? 'inactive' : 'active';
+            }
+
+            const transformers = {
+                instagram: (username) => `https://instagram.com/${username}`,
+                twitter: (username) => `https://twitter.com/${username}`
+            };
+            function toSocialProfileUri(username, service) {
+                var result = null;
+                if (service in transformers && transformers.hasOwnProperty(service)) {
+                    const transform = transformers[service];
+                    result = transform(username);
+                }
+                console.log(result);
+            }
+            toSocialProfileUri('worship_chaos', 'twitter');
+
+            class Welcome extends React.Component {
+                render() {
+                    return (<h1>Hello, {this.props.name}</h1>);
+                }
+            }
+            // Correct! This is a component and should be capitalized:
+            function Hello(props) {
+                // Correct! This use of <div> is legitimate because div is a valid HTML tag:
+                return <div>Hello {props.toWhat}</div>;
+            }
+            function helloWorld() {
+                // Correct! React knows <Hello /> is a component because it's capitalized.
+                return <Hello toWhat="World" />;
+            }
+
+            class Rectangle {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+
+                // Getter
+                get area() {
+                    return this.calcArea();
+                }
+
+                // Method
+                calcArea() {
+                    return this.height * this.width;
+                }
+            }
+            const square = new Rectangle(10, 10);
+            console.log(square.area);   // 100
+
+            const materials = [
+                'Hydrogen',
+                'Helium',
+                'Lithium',
+                'Beryllium'
+            ];
+            console.log(materials.map(material => material.length));    // expected output: Array [8, 6, 7, 9]
+
+            const module = {
+                x: 42,
+                getX: function() {
+                    return !!this ? this.x : this;
+                }
+            };
+            const unboundGetX = module.getX;    // The function gets invoked at the global scope
+            console.log(unboundGetX()); // expected output: undefined
+            const boundGetX = unboundGetX.bind(module);
+            console.log(boundGetX());   // expected output: 42
+
+            class Bork {
+                // Property initializer syntax
+                instanceProperty = "bork";
+                boundFunction = () => {
+                    return this.instanceProperty;
+                };
+
+                // Static class properties
+                static staticProperty = "babelIsCool";
+                static staticFunction = function() {
+                    return Bork.staticProperty;
+                };
+            }
+            let myBork = new Bork;
+            // Property initializers are not on the prototype
+            console.log(myBork.__proto__.boundFunction);    // > undefined
+            // Bound functions are bound to the class instance
+            console.log(myBork.boundFunction.call(undefined));  // > "bork"
+            // Static function exists on the class
+            console.log(Bork.staticFunction()); // > "babelIsCool"
+
+            function testNum(a) {
+                let result;
+                if (a > 0) {
+                    result = 'positive';
+                } else {
+                    result = 'NOT positive';
+                }
+                return result;
+            }
+            console.log(testNum(-5));   // expected output: "NOT positive"
+
+            function getFee(isMember) {
+                return (isMember ? '$2.00' : '$10.00');
+            }
+            console.log(getFee(true));  // expected output: "$2.00"
+            console.log(getFee(false)); // expected output: "$10.00"
+            console.log(getFee(null));  // expected output: "$10.00"
+            
+            var age = 26;
+            var beverage = (age >= 21) ? "Beer" : "Juice";
+            console.log(beverage);  // Beer
+
+            let greeting = person => {
+                let name = person ? person.name : 'stranger';
+                return `Howdy, ${name}?`;
+            }
+            console.log(greeting({ name: 'Alice' }));   // "Howdy, Alice?"
+            console.log(greeting(null));    // "Howdy, stranger?"
+
+            const array1 = [1, 4, 9, 16];
+            const map1 = array1.map(x => x * 2);    // pass a function to map
+            console.log(map1);  // expected output: Array [2, 8, 18, 32]
+
+            var users = [
+                { name: "Alexa", taskCount: 7 },
+                { name: "Ben",   taskCount: 5 }
+            ];
+            function renderUsers(user) {
+                ReactDOM.render(
+                    <ol>
+                        {users.map(user =>
+                            <li key={user.name.toLowerCase()}>{user.name}: {user.taskCount} tasks left</li>)}
+                    </ol>,
+                    document.getElementById('users')
+                );
+            }
+            renderUsers();
+            users[0].taskCount = 9;
+            users[1].taskCount = 5;
+            users.reverse();
+            users.splice(1, 0, { name: "Claudia", taskCount: 8 });
+            setTimeout(renderUsers, 2000);
+
+            let todoCounter = 1;
+            const createNewTodo = (text) => ({
+                completed: false,
+                id: todoCounter++,
+                text
+            });
+            console.log(['nanoid'].map(todoText => createNewTodo(todoText)));
+
+            function reconciliation(item) {
+                return (<li key={item.id}>{item.name}</li>);
+            }
+            var items = [
+                { id: 2015, name: "Duke" },
+                { id: 2016, name: "Villanova" }
+            ];
+            function recursingChildrenReconciliation(recursingChildren) {
+                ReactDOM.render(
+                    recursingChildren.map(reconciliation),
+                    document.getElementById('reconciliation')
+                );
+            }
+            recursingChildrenReconciliation(items);
+            items.unshift({id: 2014, name: "Connecticut"});
+            setTimeout(recursingChildrenReconciliation, 4000, items);
+
+            const inputElement = document.getElementById("input");
+            inputElement.addEventListener("change", handleFiles, false);
+            function handleFiles() {
+                const fileList = this.files;    // now you can work with the file list
+                if (fileList.length) {
+                    const selectedFile = fileList[0];
+                    alert(selectedFile.name);
+                }
+            }
+
+            // Computed property names (ES2015)
+            let i = 0;
+            let a = {
+                ['foo' + ++i]: i,
+                ['foo' + ++i]: i,
+                ['foo' + ++i]: i
+            };
+            console.log(a.foo1);    // 1
+            console.log(a.foo2);    // 2
+            console.log(a.foo3);    // 3
+            items = ['A', 'B', 'C'];
+            let obj = { [items]: "Hello" };
+            console.log(obj);           // A,B,C: "Hello"
+            console.log(obj["A, B, C".replace(/\s/g, '')]);  // "Hello"
+
+            let param = 'size';
+            let config = {
+                [param]: 12,
+                ['mobile' + param.charAt(0).toUpperCase() + param.slice(1)]: 4
+            };
+            console.log(config);    // { size: 12, mobileSize: 4 }
+
+            let xyz = 1;
+            if (xyz === 1) {
+                let xyz = 2;
+                console.log(xyz); // expected output: 2
+            }
+            console.log(xyz); // expected output: 1
+
+            const number = 42;
+            try {
+                number = 99;
+            } catch (err) {
+                console.log(err);   // expected output: TypeError: invalid assignment to const `number`
+                                    // Note - error messages will vary depending on browser
+            }
+            console.log(number);    // expected output: 42
+
+            ReactDOM.render(
+                <div>
+                    <Welcome name="Tuomas Holopainen" />
+                    {helloWorld()}
+                </div>,
+                document.getElementById('root')
+            );
+
+            class NameForm extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.input = React.createRef();
+                }
+
+                handleSubmit = (event) =>  {
+                    event.preventDefault();
+                    alert('A name was submitted: ' + this.input.current.value);
+                }
+
+                render() {
+                    return (
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                Name:&nbsp;
+                                <input defaultValue="Bob" type="text" ref={this.input} />
+                            </label>
+                            &nbsp;
+                            <input type="submit" value="Submit" />
+                        </form>
+                    );
+                }
+            }
+            ReactDOM.render(
+                <NameForm />,
+                document.getElementById('uncontrolled')
+            );
+
+            class LoginForm extends React.PureComponent {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        user: '',
+                        pass: '',
+                        successfulLogin: false
+                    };
+                    this.loginData = { [props.user]: props.pass };
+                }
+
+                handleChange = (event) => {
+                    this.setState({ [event.target.name]: event.target.value });
+                }
+
+                handleSubmit = (event) => {
+                    event.preventDefault();
+                    const user = document.getElementById('user').value;
+                    const pass = document.getElementById('pass').value;
+                    let filledLoginData = !!user && !!pass;
+                    let successfulLogin = filledLoginData
+                                            && user in this.loginData
+                                            && this.loginData[user] === pass;
+                    this.setState({
+                        successfulLogin: successfulLogin
+                    });
+                    if (!successfulLogin && filledLoginData) {
+                        this.reset();
+                    }
+                }
+                
+                reset() {
+                    this.setState({
+                        user: '',
+                        pass: ''
+                    });
+                    alert("Acceso incorrecto. Descargando virus letal...");
+                }
+
+                render() {
+                    return (
+                        <form onSubmit={this.handleSubmit}>
+                            <h2>Acceso al área restringida</h2>
+                            <label htmlFor="user">Nombre de usuario:</label>&nbsp;
+                            <input type="text" id="user" name="user" value={this.state.user} onChange={this.handleChange}/><br/><br/>
+                            <label htmlFor="pass">Contraseña:</label>&nbsp;
+                            <input type="password" id="pass" name="pass" value={this.state.pass} onChange={this.handleChange}/><br/><br/>
+                            <div className="centered"><input type="submit" value="Acceder"/></div><br/><br/>
+                            {this.state.successfulLogin && <RestrictedArea />}
+                        </form>
+                    );
+                }
+            }
+
+            function RestrictedArea(props) {
+                return <div className="centered">Welcome to the jungle!</div>;
+            }
+
+            ReactDOM.render(
+                <LoginForm user="SystematicChaos" pass="ShinigamI" />,
+                document.getElementById('loginForm')
+            );
+
+            class ShoppingList extends React.Component {
+                render() {
+                    return (
+                        <div className="shopping-list">
+                            <h1>Shopping List for {this.props.name}</h1>
+                            <ul>
+                                <li>Telegram</li>
+                                <li>Signal</li>
+                                <li>Line</li>
+                            </ul>
+                        </div>
+                    );
+                }
+            }
+            ReactDOM.render(
+                <ShoppingList name="Mark Jansen" />,
+                document.getElementById('jensen')
+            );
+
+            // Data Change with Mutation
+            var player = { score: 1, name: 'Jeff' };
+            player.score = 2;
+            console.log(player);    // Now player is { score: 2, name: 'Jeff' }
+
+            // Data Change without Mutation
+            player = { score: 1, name: 'Jeff' };
+            var newPlayer = Object.assign({}, player, { score: 2 });
+            console.log(player);    // Now player is unchanged,
+            console.log(newPlayer); // but newPlayer is { score: 2, name: 'Jeff' }
+            newPlayer = {...player, score: 2};  // Or if you are using object spread
+            console.log(newPlayer);             // syntax proposal, you can write this
+
+            class CounterButton extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = { count: 1 };
+                }
+
+                shouldComponentUpdate(nextProps, nextState) {
+                    return this.props !== nextProps.color
+                        || this.state.count !== nextState.count;
+                }
+
+                render() {
+                    return (
+                        <button
+                                color={this.props.color}
+                                onClick={() => this.setState((state) => ({ count: state.count + 1}))}>
+                            Count: {this.state.count}
+                        </button>
+                    )
+                }
+            }
+            ReactDOM.render(<CounterButton />,
+                document.getElementById('optimizing_performance'));
+            
+            class WordAdder extends React.PureComponent {
+                constructor(props) {
+                    super(props);
+                    this.state = { words: ['marklar'] };
+                }
+
+                handleClick = () => {
+                    // This section is good style now and it does not cause a bug anymore
+                    const words = this.state.words.slice();
+                    words.push('marklar');
+                    this.setState({ words: words });
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <button onClick={this.handleClick} />
+                            <ListOfWords words={this.state.words} />
+                        </div>
+                    );
+                }
+            }
+            
+            class ListOfWords extends React.Component {
+                render() {
+                    return (<div>{this.props.words.join(',')}</div>);
+                }
+            }
+            ReactDOM.render(<WordAdder />,
+                document.getElementById('marklar'));
+        </script>
+    </body>
+</html>

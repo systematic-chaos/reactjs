@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Introducing JSX</title>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+
+    <body>
+        <div id="root"></div>
+        
+        <script type="text/babel">
+            function formatName(user) {
+                return user.firstName + ' ' + user.lastName;
+            }
+
+            function getGreeting(user) {
+                if (!!user) {
+                    return <h1>Hello, {formatName(user)}!</h1>;
+                }
+                return <h1>Hello, Stranger.</h1>
+            }
+
+            const user = {
+                firstName: 'Josh Harper',
+                lastName: 'Perez',
+                avatarUrl: 'http://images.com'
+            };
+
+            const element = (
+                <div>
+                    {getGreeting(user)}
+                    <h2>Good to see you here, {user.avatarUrl}.</h2>
+                </div>
+            );
+
+            /* This is safe: */ const title = "response.potentiallyMaliciousInput";
+
+            // Note: this structure is simplified
+            const reactCreatedElement = {
+                type: 'h1',
+                props: {
+                    className: 'greeting',
+                    children: 'Hello, world!'
+                }
+            };
+
+            ReactDOM.render(
+                element,
+                document.getElementById('root')
+            );
+        </script>
+    </body>
+</html>

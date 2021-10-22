@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>State and Lifecycle</title>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+
+    <body>
+        <div id="root"></div>
+        
+        <script type="text/babel">
+
+            class Clock extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = { date: new Date(),
+                                    posts: [],
+                                    comments: [] };
+                    this.comment = 'Hello, world!';
+                    this.increment = !!props.increment ? parseInt(props.increment) : 1;
+                }
+
+                componentDidMount() {
+                    this.timerID = setInterval(
+                        () => this.tick(),
+                        1000);
+                    
+                    if (typeof fetchPosts !== 'undefined') {
+                        fetchPosts().then(response => {
+                            this.setState({
+                                posts: response.posts
+                            });
+                        });
+                    }
+                    if (typeof fetchComments !== 'undefined') {
+                        fetchComments().then(response => {
+                            this.setState({
+                                comments: response.comments
+                            });
+                        });
+                    }
+                }
+
+                componentWillUnmount() {
+                    clearInterval(this.timerID);
+                }
+
+                tick() {
+                    // Right and correct
+                    this.setState(function(state, props) {
+                        let date = state.date;
+                        date.setSeconds(date.getSeconds() + this.increment);
+                        return { date: date };
+                    });
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <h1>{this.comment}</h1>
+                            <FormattedDate date={this.state.date} />
+                        </div>
+                    );
+                }
+            }
+
+            function FormattedDate(props) {
+                return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
+            }
+
+            function App() {
+                return (
+                    <div>
+                        <Clock increment="1"/>
+                        <Clock />
+                        <Clock />
+                    </div>
+                );
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+    </body>
+</html>
