@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Hello World</title>
+
+        <!-- Load React -->
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+        <!-- Quickly trying JSX, don't use this in production! -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+    
+    <style>
+        body {
+            padding: 5px
+        }
+    </style>
+
+    <body>
+        <div id="root_container">
+            <!-- This element's contents will be replaced with your component. -->
+        </div>
+
+        <script type="text/babel">
+            const root = ReactDOM.createRoot(document.getElementById('root_container'));
+            root.render(<h1>Hello, world!</h1>);
+        </script>
+    </body>
+</html>
